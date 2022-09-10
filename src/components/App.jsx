@@ -1,5 +1,5 @@
-import Container from './Container';
-import TaskImageFinder from './TaskImageFinder';
+import { Container } from './Container';
+import { TaskImageFinder } from './TaskImageFinder';
 
 export const App = () => {
   return (
