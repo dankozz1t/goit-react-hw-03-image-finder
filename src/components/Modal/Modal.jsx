@@ -6,6 +6,10 @@ import s from './Modal.module.css';
 export default class Modal extends Component {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]).isRequired,
   };
 
   handleCloseModal = e => {
