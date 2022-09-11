@@ -30,10 +30,9 @@ export class ImageGalleryItem extends Component {
         />
 
         {this.state.isModalOpen && (
-          <Modal
-            onCloseModal={this.handleToggleModal}
-            src={this.props.largeImageURL}
-          />
+          <Modal onCloseModal={this.handleToggleModal}>
+            <img src={this.props.largeImageURL} alt={this.props.tags} />
+          </Modal>
         )}
       </li>
     );

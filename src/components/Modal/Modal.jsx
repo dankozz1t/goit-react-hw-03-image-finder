@@ -6,7 +6,6 @@ import s from './Modal.module.css';
 export default class Modal extends Component {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
-    src: PropTypes.string.isRequired,
   };
 
   handleCloseModal = e => {
@@ -18,9 +17,7 @@ export default class Modal extends Component {
   render() {
     return (
       <div className={s.Overlay} onClick={this.handleCloseModal}>
-        <div className={s.Modal}>
-          <img src={this.props.src} alt="" />
-        </div>
+        <div className={s.Modal}>{this.props.children}</div>
       </div>
     );
   }

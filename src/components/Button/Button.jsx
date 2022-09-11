@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-// import s from './Button.module.css';
+import s from './Button.module.css';
 
 export default class Button extends Component {
   static propTypes = {
-    // prop: PropTypes
+    onClick: PropTypes.func.isRequired,
   };
 
   render() {
-    return <div>Button</div>;
+    return (
+      <button type="button" className={s.Button} onClick={this.props.onClick}>
+        Load more
+      </button>
+    );
   }
 }

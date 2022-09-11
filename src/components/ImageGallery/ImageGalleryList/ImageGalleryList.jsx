@@ -8,7 +8,6 @@ export class ImageGalleryList extends Component {
   static propTypes = {
     images: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.number.isRequired,
         webformatURL: PropTypes.string.isRequired,
         largeImageURL: PropTypes.string.isRequired,
         tags: PropTypes.string.isRequired,
@@ -19,14 +18,16 @@ export class ImageGalleryList extends Component {
   render() {
     return (
       <ul className={s.ImageGallery}>
-        {this.props.images.map(({ id, webformatURL, largeImageURL, tags }) => (
-          <ImageGalleryItem
-            key={id}
-            webformatURL={webformatURL}
-            largeImageURL={largeImageURL}
-            tags={tags}
-          />
-        ))}
+        {this.props.images.map(
+          ({ webformatURL, largeImageURL, tags }, index) => (
+            <ImageGalleryItem
+              key={index}
+              webformatURL={webformatURL}
+              largeImageURL={largeImageURL}
+              tags={tags}
+            />
+          )
+        )}
       </ul>
     );
   }

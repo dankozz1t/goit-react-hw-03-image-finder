@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { api } from '../../services/api';
 
 import s from './TaskImageFinder.module.css';
+import Button from 'components/Button/Button';
 
 const Status = {
   IDLE: 'idle',
@@ -20,16 +21,34 @@ const Status = {
 export class TaskImageFinder extends Component {
   state = {
     search: '',
-    images: null,
+    page: 1,
+    images: [],
     error: null,
     status: Status.IDLE,
   };
 
   handleFormSubmit = search => {
-    api.fetchImages(search, '1').then(({ data }) => {
-      this.setState({ search, images: data.hits });
-      console.log(data.hits);
-    });
+    this.setState({ search, images: [], page: 1 });
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.page !== this.state.page) {
+      api.fetchImages(this.state.search, this.state.page).then(({ data }) => {
+        this.setState(prevState => ({
+          images: [...prevState.images, ...data.hits],
+        }));
+      });
+    }
+
+    if (prevState.search !== this.state.search) {
+      api.fetchImages(this.state.search, this.state.page).then(({ data }) => {
+        this.setState({ images: data.hits });
+      });
+    }
+  }
+
+  handleLoadMoreClick = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   render() {
@@ -37,6 +56,8 @@ export class TaskImageFinder extends Component {
       <div className={s.box}>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {this.state.images && <ImageGalleryList images={this.state.images} />}
+
+        <Button onClick={this.handleLoadMoreClick} />
 
         <button
           type="button"
@@ -46,7 +67,7 @@ export class TaskImageFinder extends Component {
         >
           Go Message
         </button>
-        <ToastContainer />
+        <ToastContainer theme="dark" />
       </div>
     );
   }
