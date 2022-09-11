@@ -50,6 +50,8 @@ export class TaskImageFinder extends Component {
                 status: Status.REJECTED,
               });
               return;
+            } else {
+              toast.info(`Im search "${data.total}" images`);
             }
 
             this.setState({
@@ -80,7 +82,7 @@ export class TaskImageFinder extends Component {
   render() {
     const { page, totalPage, images, status, error } = this.state;
 
-    const isShowButton = page <= totalPage ? true : false;
+    const isShowButton = page * 12 <= totalPage ? true : false;
 
     return (
       <div className={s.box}>
@@ -112,7 +114,7 @@ export class TaskImageFinder extends Component {
           </>
         )}
 
-        <ToastContainer theme="dark" />
+        <ToastContainer autoClose={3000} theme="dark" />
       </div>
     );
   }
