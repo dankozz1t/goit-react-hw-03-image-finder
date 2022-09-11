@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import s from './Button.module.css';
 
-export default class Button extends Component {
+export class Button extends Component {
   static propTypes = {
     onClick: PropTypes.func.isRequired,
   };
