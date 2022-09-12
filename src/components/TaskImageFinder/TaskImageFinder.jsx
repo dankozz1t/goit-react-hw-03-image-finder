@@ -12,18 +12,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import s from './TaskImageFinder.module.css';
 
-const Status = {
+const Status = Object.freeze({
   IDLE: 'idle',
   PENDING: 'pending',
   RESOLVED: 'resolved',
   REJECTED: 'rejected',
-};
+});
 
 export class TaskImageFinder extends Component {
   state = {
     search: '',
     page: 1,
-    totalPage: null,
+    totalImages: null,
     images: [],
     error: null,
     status: Status.IDLE,
@@ -56,7 +56,7 @@ export class TaskImageFinder extends Component {
 
             this.setState({
               images: data.hits,
-              totalPage: data.total,
+              totalImages: data.total,
               status: Status.RESOLVED,
             });
           }
@@ -64,7 +64,7 @@ export class TaskImageFinder extends Component {
           if (prevState.page !== page) {
             this.setState(prevState => ({
               images: [...prevState.images, ...data.hits],
-              totalPage: data.total,
+              totalImages: data.total,
               status: Status.RESOLVED,
             }));
           }
@@ -80,26 +80,20 @@ export class TaskImageFinder extends Component {
   };
 
   render() {
-    const { page, totalPage, images, status, error } = this.state;
+    const { page, totalImages, images, status, error } = this.state;
 
-    const isShowButton = page * 12 <= totalPage ? true : false;
+    const isShowButton = page * 12 < totalImages ? true : false;
 
     return (
       <div className={s.box}>
         <Searchbar onSubmit={this.handleFormSubmit} />
 
-        {status === 'pending' && (
-          <>
-            {images.length > 0 && <ImageGalleryList images={images} />}
-            <Loader />
-          </>
-        )}
+        {images.length > 0 && <ImageGalleryList images={images} />}
 
-        {status === 'resolved' && (
-          <>
-            {images.length > 0 && <ImageGalleryList images={images} />}
-            {isShowButton && <Button onClick={this.handleLoadMoreClick} />}
-          </>
+        {status === 'pending' && <Loader />}
+
+        {status === 'resolved' && isShowButton && (
+          <Button onClick={this.handleLoadMoreClick} />
         )}
 
         {status === 'rejected' && (
