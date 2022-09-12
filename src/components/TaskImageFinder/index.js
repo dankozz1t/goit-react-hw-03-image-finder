@@ -1,1 +1,1 @@
-export * from './TaskImageFinder';
+export * from './TaskImageFinder.jsx';
